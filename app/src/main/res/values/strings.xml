@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">News App</string>
+
+    <!-- Settings Menu Item -->
+    <string name="settings_menu_item">Settings</string>
+
+    <!-- Settings Activity Title    -->
+    <string name="settings_title">News Settings</string>
+
+    <!-- Strings for Choose Category preference -->
+    <string name="settings_choose_category_label">Choose Category</string>
+    <string name="settings_choose_category_key" translatable="false">choose_category</string>
+    <string name="settings_choose_category_default" translatable="false">@string/settings_world_category_value</string>
+
+    <!-- Label for World Category -->
+    <string name="settings_world_category_label">World</string>
+    <string name="settings_world_category_value">world</string>
+
+    <!-- Label for Sports Category -->
+    <string name="settings_sports_category_label">Sports</string>
+    <string name="settings_sports_category_value">sport</string>
+
+    <!-- Label for Technology Category -->
+    <string name="settings_technology_category_label">Technology</string>
+    <string name="settings_technology_category_value">technology</string>
+
+    <!-- Label for Business Category -->
+    <string name="settings_business_category_label">Business</string>
+    <string name="settings_business_category_value">business</string>
+
+    <!-- Label for Film Category -->
+    <string name="settings_film_category_label">Film</string>
+    <string name="settings_film_category_value">film</string>
+
+    <!-- Label for Science Category -->
+    <string name="settings_science_category_label">Science</string>
+    <string name="settings_science_category_value">science</string>
+
+    <!-- Label for Fashion Category -->
+    <string name="settings_fashion_category_label">Fashion</string>
+    <string name="settings_fashion_category_value">fashion</string>
+
+</resources>
