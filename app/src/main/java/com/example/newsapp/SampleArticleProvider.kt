@@ -1,0 +1,254 @@
+package com.example.newsapp
+
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
+class SampleTopHeadlinesProvider: PreviewParameterProvider<List<Article>> {
+    override val values = sequenceOf(loadSampleArticles())
+
+    private fun loadSampleArticles(): List<Article> {
+        val sampleJson = """
+            {
+  "articles": [
+    {
+      "source": {
+        "id": "the-washington-post",
+        "name": "The Washington Post"
+      },
+      "author": "Ben Noll, Matthew Cappucci",
+      "title": "Hurricane Erin back at Category 4, will bring dangerous surf to East Coast - The Washington Post",
+      "description": "Life-threatening waves and rip currents are expected along the East Coast this week, with Hatteras Island in the Outer Banks under an evacuation order.",
+      "url": "https://www.washingtonpost.com/weather/2025/08/18/hurricane-erin-atlantic-path-outer-banks/",
+      "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/HUUF5ZMBTVAGJIVLDVCP25ZSII.png&w=1440",
+      "publishedAt": "2025-08-18T14:37:52Z",
+      "content": "Hurricane Erin has restrengthened into a Category 4 storm, with dangerous coastal conditions expected along the Eastern Seaboard, Bermuda and Atlantic Canada this week.\r\nAs of Monday morning, Erin ha… [+202 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Rudebaguette.com"
+      },
+      "author": "Hina Dinoo",
+      "title": "\"We Saw the Future\": SpaceX Dragon Lands With 6,700 Pounds of Advanced Robots, Leaving Scientists Reeling From Daring Space Mission - Rude Baguette",
+      "description": "IN A NUTSHELL 🚀 SpaceX’s Dragon capsule returned with 6,700 pounds of innovative gear from the ISS. 🛡️ The MISSE-20 project tested material durability in space for future spacecraft design. 🤖 The Astrobee-REACCH robotic system showed potential in satellite…",
+      "url": "https://www.rudebaguette.com/en/2025/08/we-saw-the-future-spacex-dragon-lands-with-6700-pounds-of-advanced-robots-leaving-scientists-reeling-from-daring-space-mission/",
+      "urlToImage": "https://www.rudebaguette.com/wp-content/uploads/2025/08/chaos-erupts-as-ai-overlords-arise-terrifying-tech-revolution-unleashes-unstoppable-forces-across-the-nation.jpg",
+      "publishedAt": "2025-08-18T14:21:09Z",
+      "content": "<table><tr><td>IN A NUTSHELL</td></tr><tr><td><ul><li> SpaceX’s Dragon capsule returned with 6,700 pounds of innovative gear from the ISS.</li><li> The MISSE-20 project tested material durability in … [+5399 chars]"
+    },
+    {
+      "source": {
+        "id": "politico",
+        "name": "Politico"
+      },
+      "author": "Liz Crampton",
+      "title": "Texas Democrats have returned home, ending redistricting standoff - Politico",
+      "description": "The state will likely now pass a new congressional map that adds five favorable seats for Republicans.",
+      "url": "https://www.politico.com/news/2025/08/18/texas-democrats-return-quorum-redistricting-00513351",
+      "urlToImage": "https://www.politico.com/dims4/default/resize/1200/quality/90/format/jpg?url=https%3A%2F%2Fstatic.politico.com%2F4d%2F5d%2F77c43cb54700abcbae8b6abbce99%2Fus-election-2026-texas-redistricting-56811.jpg",
+      "publishedAt": "2025-08-18T14:10:09Z",
+      "content": "The drama in Texas set off a national redistricting battle, most prominently with California Gov. Gavin Newsom vowing to retaliate against Texas Republicans by extracting an equal number of Democrati… [+1317 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Seeking Alpha"
+      },
+      "author": "Jonathan Block",
+      "title": "Novo Nordisk partners with GoodRx for ${'$'}499 monthly Ozempic, Wegovy (GDRX:NASDAQ) - Seeking Alpha",
+      "description": "Novo Nordisk partners with GoodRx to offer type 2 diabetes meds Ozempic & Wegovy at ${'$'}499/month. Learn how this discount impacts self-pay customers.",
+      "url": "https://seekingalpha.com/news/4486556-novo-nordisk-partners-with-goodrx-for-499-monthly-ozempic-wegovy",
+      "urlToImage": "https://static.seekingalpha.com/cdn/s3/uploads/getty_images/1403259479/image_1403259479.jpg?io=getty-c-w750",
+      "publishedAt": "2025-08-18T13:34:45Z",
+      "content": "Dimensions/E+ via Getty Images"
+    },
+    {
+      "source": {
+        "id": "ars-technica",
+        "name": "Ars Technica"
+      },
+      "author": "Samuel Axon",
+      "title": "A question for the ages: Is The Elder Scrolls II: Daggerfall a good game? - Ars Technica",
+      "description": "Revisiting the 1996 RPG exposes both genius and madness.",
+      "url": "https://arstechnica.com/gaming/2025/08/a-question-for-the-ages-is-the-elder-scrolls-ii-daggerfall-a-good-game/",
+      "urlToImage": "https://cdn.arstechnica.net/wp-content/uploads/2025/08/daggerfall-hero-1152x648-1755293346.jpg",
+      "publishedAt": "2025-08-18T13:25:35Z",
+      "content": null
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "CNBC"
+      },
+      "author": "Alex Sherman",
+      "title": "Versant to rename MSNBC, drop famed peacock logos in Comcast separation - CNBC",
+      "description": "They're the first real public-facing changes in Versant's upcoming separation from Comcast's NBCUniversal.",
+      "url": "https://www.cnbc.com/2025/08/18/comcast-versant-rename-msnbc-peacock-logos.html",
+      "urlToImage": "https://image.cnbcfm.com/api/v1/image/108187115-1755520486245-MS_NOW_LogoTag08-18.png?v=1755522428&w=1920&h=1080",
+      "publishedAt": "2025-08-18T13:11:38Z",
+      "content": "MSNBC will change its name later this year and drop the storied peacock image from its branding the first real public-facing changes in Versant's upcoming separation from Comcast's NBCUniversal.\r\nThe… [+2768 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "CBS Sports"
+      },
+      "author": "Jared Dubin",
+      "title": "NFL preseason Week 2 winners and losers: Giants' Jaxson Dart looks the part, Cowboys' backups stumble - CBS Sports",
+      "description": "Here are some winners and losers coming out of Week 2 of the NFL preseason",
+      "url": "https://www.cbssports.com/nfl/news/nfl-preseason-week-2-winners-and-losers-giants-jaxson-dart-looks-the-part-cowboys-backups-stumble/",
+      "urlToImage": "https://sportshub.cbsistatic.com/i/r/2025/08/18/f5d0518e-3e81-4684-9ba3-1214a22fa2e7/thumbnail/1200x675/747eda6f2d8226f63ca2f0e49a79a3eb/milton.jpg",
+      "publishedAt": "2025-08-18T13:02:36Z",
+      "content": "Week 2 of the NFL preseason is almost officially in the books. There's one more game left on Monday night, but 15 have already been played. And that means there was plenty to see on your television s… [+5476 chars]"
+    },
+    {
+      "source": {
+        "id": "the-verge",
+        "name": "The Verge"
+      },
+      "author": "Thomas Ricker",
+      "title": "Samsung’s budget Galaxy Buds 3 FE are here - The Verge",
+      "description": "Samsung’s Galaxy Buds 3 FE move to a stemmed design and claim to improve sound and noise cancellation while keeping the price down.",
+      "url": "https://www.theverge.com/news/760445/galaxy-buds3-fe-price-specs-samsung",
+      "urlToImage": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/Buds3-FE_Light-gray_002_Back_RGB.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200",
+      "publishedAt": "2025-08-18T13:00:00Z",
+      "content": "<ul><li></li><li></li><li></li></ul>\r\nActive noise cancellation on a budget.\r\nActive noise cancellation on a budget.\r\nby\r\nThomas RickerClose\r\nThomas Ricker\r\nPosts from this author will be added to yo… [+2608 chars]"
+    },
+    {
+      "source": {
+        "id": "the-wall-street-journal",
+        "name": "The Wall Street Journal"
+      },
+      "author": "WSJ Staff, Ed Ballard, Dan Gallagher, Joe Wallace, Chelsey Dulaney, Rebecca Feng, Azhar Sukri, Gunjan Banerji, Telis Demos, Anvee Bhutani, Alex Ossola, Heard Editors",
+      "title": "Stock Market Today: Dow Futures Edge Lower, With Fed, Ukraine Meeting in Focus — Live Updates - The Wall Street Journal",
+      "description": "President Trump's tariffs continue to affect global markets and the economy. Follow for live updates on stocks, bonds and other markets, including the Dow Jones Industrial Average, S&P 500 and Nasdaq Composite.",
+      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-08-18-2025",
+      "urlToImage": "https://images.wsj.net/im-34062673/social",
+      "publishedAt": "2025-08-18T12:25:00Z",
+      "content": "The U.S. economy is back in focus this week, with earnings updates due from major retailers and a key Federal Reserve event looming. Stock indexes were little changed early Monday.\r\nMinutes from the … [+1806 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Sports Illustrated"
+      },
+      "author": "Bryan Fischer",
+      "title": "The Ultimate Weekly 2025 College Football Road Trip - Sports Illustrated",
+      "description": "If you want to see all the games, stadiums and cities that make the sport special, here’s at least one game for each week of the season to hit.",
+      "url": "https://www.si.com/college-football/ultimate-weekly-2025-cfb-road-trip",
+      "urlToImage": "https://images2.minutemediacdn.com/image/upload/c_crop,w_4500,h_2531,x_0,y_372/c_fill,w_1440,ar_16:9,f_auto,q_auto,g_auto/images/ImagnImages/mmsport/si/01k2yh8dn8yjn7qpdff1.jpg",
+      "publishedAt": "2025-08-18T12:11:48Z",
+      "content": "The 2025 college football season is upon us. \r\nTo kick off the season, we put together the ultimate road trip that took you to some of the must-see stadiums, games and places that make the sport spec… [+10641 chars]"
+    },
+    {
+      "source": {
+        "id": "nbc-news",
+        "name": "NBC News"
+      },
+      "author": "Henry J. Gomez",
+      "title": "Former Sen. Sherrod Brown kicks off his bid for Vance's old Senate seat in Ohio - NBC News",
+      "description": "Former Sen. Sherrod Brown, D-Ohio, launched a comeback campaign Monday, setting the stage for a 2026 special election that could decide control of the Senate.",
+      "url": "https://www.nbcnews.com/politics/2026-election/sherrod-brown-vance-campaign-launch-senate-seat-ohio-rcna225277",
+      "urlToImage": "https://media-cldnry.s-nbcnews.com/image/upload/t_nbcnews-fp-1200-630,f_auto,q_auto:best/rockcms/2025-08/250815-sherrod-brown-se-253p-d1585c.jpg",
+      "publishedAt": "2025-08-18T11:54:14Z",
+      "content": "CLEVELAND Former Sen. Sherrod Brown, D-Ohio, launched a comeback campaign Monday, setting the stage for a 2026 special election that could decide partisan control of the Senate.\r\nBrown will challenge… [+4798 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Rudebaguette.com"
+      },
+      "author": "Eirwen Williams",
+      "title": "James Webb Discovery Stuns World’s Leading Astrophysicists as Evidence Points to Humanity Living Inside Black Hole With No Escape Path - Rude Baguette",
+      "description": "IN A NUTSHELL 🔭 Researchers using the James Webb Space Telescope discovered a significant pattern in the rotational direction of ancient galaxies. 🌀 Approximately 60% of these galaxies rotate clockwise, suggesting a potential cosmic order. 🌌 The bold hypot…",
+      "url": "https://www.rudebaguette.com/en/2025/08/james-webb-discovery-stuns-worlds-leading-astrophysicists-as-evidence-points-to-humanity-living-inside-black-hole-with-no-escape-path/",
+      "urlToImage": "https://www.rudebaguette.com/wp-content/uploads/2025/08/scientists-stunned-by-blinding-cosmic-flash-astounding-new-data-sparks-fierce-debate-among-worlds-leading-experts.jpg",
+      "publishedAt": "2025-08-18T11:04:21Z",
+      "content": "<table><tr><td>IN A NUTSHELL</td></tr><tr><td><ul><li> Researchers using the James Webb Space Telescope discovered a significant pattern in the rotational direction of ancient galaxies.</li><li> Appr… [+5786 chars]"
+    },
+    {
+      "source": {
+        "id": "ars-technica",
+        "name": "Ars Technica"
+      },
+      "author": "Andrew Cunningham",
+      "title": "Ars Technica System Guide: Four sample PC builds, from ${'$'}500 to ${'$'}5,000 - Ars Technica",
+      "description": "Despite everything, it’s still possible to build decent PCs for decent prices.",
+      "url": "https://arstechnica.com/gadgets/2025/08/ars-technica-system-guide-back-to-pc-building-for-back-to-school/",
+      "urlToImage": "https://cdn.arstechnica.net/wp-content/uploads/2025/08/IMG_2568-1152x648.jpeg",
+      "publishedAt": "2025-08-18T11:00:25Z",
+      "content": null
+    },
+    {
+      "source": {
+        "id": "bloomberg",
+        "name": "Bloomberg"
+      },
+      "author": "Michael MacKenzie, Ye Xie",
+      "title": "Bond Market’s Rate-Cut Bets Enter Decisive Stretch With Powell - Bloomberg.com",
+      "description": "Bond traders’ big bet that the Federal Reserve is poised to lower interest rates faces a key moment this week as Chair Jerome Powell gets a chance to weigh in on the economy.",
+      "url": "https://www.bloomberg.com/news/articles/2025-08-17/bond-market-s-rate-cut-bets-enter-decisive-stretch-with-powell",
+      "urlToImage": "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i8X4sOxtdrHk/v1/1200x800.jpg",
+      "publishedAt": "2025-08-18T10:16:57Z",
+      "content": "Bond traders big bet that the Federal Reserve is poised to lower interest rates faces a key moment this week as Chair Jerome Powell gets a chance to weigh in on the economy.\r\nPowells speech on Friday… [+361 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Boredpanda.com"
+      },
+      "author": "Renan Duarte",
+      "title": "“First Rabbits, Now The Squirrels?”: ‘Zombie Squirrels’ With Oozing Flesh Terrify US Homeowners - AOL.com",
+      "description": "\"Squirrels with squirrel pox are just really ugly to look at.\"",
+      "url": "https://www.boredpanda.com/terrifying-zombie-squirrels-with-oozing-flesh-invade-us-backyards/",
+      "urlToImage": "https://www.boredpanda.com/blog/wp-content/uploads/2025/08/fb_image_68a2524480a77.png",
+      "publishedAt": "2025-08-18T09:56:15Z",
+      "content": "There are increasing reports of the cute furry little squirrels of North American backyards being replaced with tumor-ridden rodents that appear painfully disfigured. \r\nThese trends first started in … [+4364 chars]"
+    },
+    {
+      "source": {
+        "id": "abc-news",
+        "name": "ABC News"
+      },
+      "author": "ABC News",
+      "title": "Russian drone strike on Ukraine apartments kills several before Trump-Zelenskyy meet - ABC News",
+      "description": null,
+      "url": "https://abcnews.go.com/International/russian-drone-strike-ukraine-apartments-kills-trump-zelenskyy/story?id\\\\u003d124735105",
+      "urlToImage": null,
+      "publishedAt": "2025-08-18T09:54:33Z",
+      "content": null
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Issy Ronald",
+      "title": "Cambridge Dictionary’s latest additions include ‘skibidi,’ ‘tradwife’ and ‘delulu’ - CNN",
+      "description": "The increasing use of TikTok trends and social media terms in everyday conversation has led Cambridge Dictionary to include “skibidi,” “delulu” and “tradwife” in the 6,000 new words it has added to its online edition over the past year.",
+      "url": "https://www.cnn.com/2025/08/18/uk/cambridge-dictionary-new-words-2025-intl-scli",
+      "urlToImage": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-520069764.jpg?c=16x9&q=w_800,c_fill",
+      "publishedAt": "2025-08-18T09:50:00Z",
+      "content": "The increasing use of TikTok trends and social media terms in everyday conversation has led Cambridge Dictionary to include skibidi, delulu and tradwife in the 6,000 new words it has added to its onl… [+2293 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "NPR"
+      },
+      "author": "",
+      "title": "Trump's D.C. 'crisis' enters 2nd week with more soldiers — and no exit strategy - NPR",
+      "description": "Leaders in Washington, D.C., say they're striving to maintain calm as growing numbers of National Guard soldiers deploy to the city. President Trump hasn't said how he wants this \"crisis\" to end.",
+      "url": "https://www.npr.org/2025/08/18/nx-s1-5505419/trump-washington-dc-crisis-national-guard",
+      "urlToImage": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/6000x3375+0+279/resize/1400/quality/100/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F65%2Fdc%2F54eff2d14c1e990fd7f006baf8e6%2Fgettyimages-2230525690.jpg",
+      "publishedAt": "2025-08-18T09:08:29Z",
+      "content": "WASHINGTON As the U.S. capital braces for a second week with soldiers and masked federal agents conducting \"roving patrols\" on the city streets, President Trump says he knows some Americans fear he's… [+6954 chars]"
+    }
+  ]
+}
+        """.trimIndent()
+        val type = object : TypeToken<TopHeadlinesResponse>() {}.type
+        return Gson().fromJson<TopHeadlinesResponse>(sampleJson, type).articles
+    }
+}
